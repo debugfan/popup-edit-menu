@@ -10,5 +10,5 @@ Add the following code into init .emacs file
 
 # Usage
 
-![Kikuscreenshot](images/screenshot.jpg)
+![screenshot](images/screenshot.png)
 
