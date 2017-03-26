@@ -1,8 +1,8 @@
 ;;; popup-edit-menu.el --- a simple package                     -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014  Nic Ferrier
+;; Copyright (C) 2014  Debugfan Chin
 
-;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
+;; Author: Debugfan Chin <debugfanchin@gmail.com>
 ;; Keywords: lisp
 ;; Version: 0.0.1
 
@@ -25,10 +25,9 @@
 
 ;;; Code:
 
-;; code goes here
-
 (defun popup-edit-menu-map ()
-  "Return a keymap equivalent to the menu bar.
+  "Return a keymap equivalent to the edit menu bar in addition to
+major mode menu and minor modes menu.
 The contents are the items that would be in the menu bar whether or
 not it is actually displayed."
   (run-hooks 'activate-menubar-hook 'menu-bar-update-hook)
@@ -80,7 +79,7 @@ not it is actually displayed."
            minor-mode-menus)))
            
 (defun popup-edit-menu (event prefix)
-  "Popup a menu like either `mouse-major-mode-menu' or `mouse-popup-menubar'.
+  "Popup a menu like either `popup-edit-menu-map' or `mouse-popup-menubar'.
 Use the former if the menu bar is showing, otherwise the latter."
   (declare (obsolete nil "23.1"))
   (interactive "@e\nP")
