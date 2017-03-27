@@ -74,7 +74,7 @@ not it is actually displayed."
     ;; loop, they're actually looked up in the opposite order.
     (apply 'append
            global-menu
-           (list 'keymap (list 'separator-mode "--"))
+           (list 'keymap (list 'popup-edit-menu-mode-separator "--"))
            local-menu
            minor-mode-menus)))
            
