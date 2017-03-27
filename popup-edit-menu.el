@@ -1,9 +1,10 @@
-;;; popup-edit-menu.el --- a simple package                     -*- lexical-binding: t; -*-
+;;; popup-edit-menu.el --- a popup context edit menu package                     -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Debugfan Chin
 
 ;; Author: Debugfan Chin <debugfanchin@gmail.com>
-;; Keywords: lisp
+;; Keywords: lisp, pop-up, context, edit, menu
+;; Package-Requires: ((emacs "24"))
 ;; Version: 0.0.1
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -27,7 +28,7 @@
 
 ;;;###autoload
 (defgroup popup-edit-menu nil
-    "Display a popup enhanced edit menu"
+    "Display a popup enhanced context edit menu"
     :group 'convenience
 )
 
@@ -39,8 +40,8 @@
   :group 'popup-edit-menu)
 
 (defun popup-edit-menu-map ()
-  "Return a keymap equivalent to the edit menu bar in addition to
-major mode menu and minor modes menu.
+  "Return a keymap associated with a enhanced context edit menu.
+The menu items from global edit menu and various mode menus.
 The contents are the items that would be in the menu bar whether or
 not it is actually displayed."
   (run-hooks 'activate-menubar-hook 'menu-bar-update-hook)
@@ -89,14 +90,16 @@ not it is actually displayed."
     ;; loop, they're actually looked up in the opposite order.
     (apply 'append
            local-menu
-           minor-mode-menus 
+           minor-mode-menus
            (list 'keymap (list 'popup-edit-menu-mode-separator "--"))
            global-menu
            nil)))
            
 (defun popup-edit-menu (event prefix)
   "Popup a menu like either `popup-edit-menu-map' or `mouse-popup-menubar'.
-Use the former if the menu bar is showing, otherwise the latter."
+Use the former if the menu bar is showing, otherwise the latter.
+EVENT is an from an input event, passing to `popup-menu' as POSITION argument.
+PREFIX is the prefix argument (if any) to pass to the command."
   (declare (obsolete nil "23.1"))
   (interactive "@e\nP")
   (run-hooks 'activate-menubar-hook 'menu-bar-update-hook)
