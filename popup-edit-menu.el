@@ -25,6 +25,19 @@
 
 ;;; Code:
 
+;;;###autoload
+(defgroup popup-edit-menu nil
+    "Display a popup enhanced edit menu"
+    :group 'convenience
+)
+
+;;;###autoload
+(defcustom popup-edit-menu-keep-header nil
+  "Non-nil means keep header in popup edit menu..."
+  :type 'boolean
+  :require 'popup-edit-menu
+  :group 'popup-edit-menu)
+
 (defun popup-edit-menu-map ()
   "Return a keymap equivalent to the edit menu bar in addition to
 major mode menu and minor modes menu.
@@ -46,37 +59,40 @@ not it is actually displayed."
                     (menu (cdr menu))
                     (title-or-map (cadr menu)))
                (or (stringp title-or-map)
-                   (setq menu
-                         (cons 'keymap
-                               (cons (concat
-                                      (capitalize (subst-char-in-string
-                                                   ?- ?\s (symbol-name
-                                                           minor-mode)))
-                                      " Menu")
-                                     (cdr menu)))))
+                   (if popup-edit-menu-keep-header
+                       (setq menu
+                             (cons 'keymap
+                                   (cons (concat
+                                          (capitalize (subst-char-in-string
+                                                       ?- ?\s (symbol-name
+                                                               minor-mode)))
+                                          " Menu")
+                                         (cdr menu))))))
                menu))
 	   (minor-mode-key-binding [menu-bar])))
 	 (local-title-or-map (and local-menu (cadr local-menu)))
 	 (global-title-or-map (cadr global-menu)))
     (or (null local-menu)
 	(stringp local-title-or-map)
-	(setq local-menu (cons 'keymap
+	(if popup-edit-menu-keep-header
+    (setq local-menu (cons 'keymap
 			       (cons (concat (format-mode-line mode-name)
                                              " Mode Menu")
-				     (cdr local-menu)))))
+				     (cdr local-menu))))))
     (or (stringp global-title-or-map)
-	(setq global-menu (cons 'keymap
-			        (cons "Edit Menu"
-				      (cdr global-menu)))))
+	(setq global-menu (if popup-edit-menu-keep-header
+                (cons 'keymap (cons "Edit Menu" (cdr global-menu)))
+                (delete "Edit" global-menu))))
     ;; Supplying the list is faster than making a new map.
     ;; FIXME: We have a problem here: we have to use the global/local/minor
     ;; so they're displayed in the expected order, but later on in the command
     ;; loop, they're actually looked up in the opposite order.
     (apply 'append
-           global-menu
-           (list 'keymap (list 'popup-edit-menu-mode-separator "--"))
            local-menu
-           minor-mode-menus)))
+           minor-mode-menus 
+           (list 'keymap (list 'popup-edit-menu-mode-separator "--"))
+           global-menu
+           nil)))
            
 (defun popup-edit-menu (event prefix)
   "Popup a menu like either `popup-edit-menu-map' or `mouse-popup-menubar'.
