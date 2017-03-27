@@ -1,7 +1,7 @@
 
 # Installation
 
-Add the following code into init .emacs file
+Put it under the folder "~/.emacs.d/lisp/" and add the following codes into .emacs init file
 ``` elisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'popup-edit-menu)
