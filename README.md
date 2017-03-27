@@ -26,3 +26,13 @@ This Elisp package used to display a popup convenient context edit menu in Emacs
 When you right click to active it, it show as following:
 
 ![screenshot](images/screenshot.png)
+
+# Configuration
+
+1. If you prefer to show the mode menus below, you can add the following codes into .emacs init file:
+
+   ```elisp
+   (setq popup-edit-menu-mode-menus-down-flag t)
+   ```
+   
+   or set it in Emacs Customization Group.
