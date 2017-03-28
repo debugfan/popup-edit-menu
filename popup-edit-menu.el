@@ -22,7 +22,11 @@
 
 ;;; Commentary:
 
-;; Put a description of the package here
+;; This package used to popup a context edit menu in Emacs.
+;; It's convenient for the users those are using mice on hand.
+;; The core start codes of this package are from mouse.el, which is
+;; a part of Emacs release. And I do some changes and make new feature
+;; based it in order to expect to conform some user custom.
 
 ;;; Code:
 
