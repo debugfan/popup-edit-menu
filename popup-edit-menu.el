@@ -5,7 +5,7 @@
 ;; Author: Debugfan Chin <debugfanchin@gmail.com>
 ;; Keywords: lisp, pop-up, context, edit, menu
 ;; Package-Requires: ((emacs "24"))
-;; Version: 0.0.1
+;; Version: 0.0.2
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,9 +24,27 @@
 
 ;; This package used to popup a context edit menu in Emacs.
 ;; It's convenient for the users those are using mice on hand.
-;; The core start codes of this package are from mouse.el, which is
-;; a part of Emacs release. And I do some changes and make new feature
-;; based it in order to expect to conform some user custom.
+;; The core start codes of this package are from mouse.el,
+;; which is a part of Emacs release.
+
+;; # Installation
+;;
+;; Add the following codes into your init file to enable it.
+;;
+;;   (require 'popup-edit-menu)
+;;   (global-set-key [mouse-3] 'popup-edit-menu)
+;;
+;; You can change the key binding as you want if you don't want
+;; to active it by mouse right click
+;;
+;; # Configuration
+;;
+;; If you prefer to show the mode menus below, you can add
+;; the following codes into your init file:
+;;
+;;   (setq popup-edit-menu-mode-menus-down-flag t)
+;;
+;; or set it in Emacs Customization Group.
 
 ;;; Code:
 
@@ -50,7 +68,14 @@
   "Non-nil means move mode menus on the bottom..."
   :type 'boolean
   :require 'popup-edit-menu
-  :group 'popup-edit-menu)  
+  :group 'popup-edit-menu)
+
+;;;###autoload
+(defcustom popup-edit-menu-never-menu-bar-flag nil
+  "Non-nil means never pop-up menu-bar even no menu-bar-lines..."
+  :type 'boolean
+  :require 'popup-edit-menu
+  :group 'popup-edit-menu)
 
 (defun popup-edit-menu-map ()
   "Return a keymap associated with a enhanced context edit menu.
@@ -107,7 +132,7 @@ not it is actually displayed."
                (and global-menu (or local-menu minor-mode-menus) (list 'keymap (list 'popup-edit-menu-mode-separator "--")))
                local-menu
                minor-mode-menus
-               nil)    
+               nil)
         (apply 'append
                local-menu
                minor-mode-menus
@@ -124,7 +149,8 @@ PREFIX is the prefix argument (if any) to pass to the command."
   (interactive "@e\nP")
   (run-hooks 'activate-menubar-hook 'menu-bar-update-hook)
   (popup-menu
-   (if (zerop (or (frame-parameter nil 'menu-bar-lines) 0))
+   (if (and (not popup-edit-menu-never-menu-bar-flag)
+            (zerop (or (frame-parameter nil 'menu-bar-lines) 0)))
        (mouse-menu-bar-map)
      (popup-edit-menu-map))
    event prefix))

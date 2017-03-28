@@ -12,7 +12,7 @@ This Elisp package used to popup a convenient context edit menu in Emacs.
    (add-to-list 'load-path "~/.emacs.d/lisp/")
    ```
 
-2. Add the following codes into .emacs init file to load it.
+2. Add the following codes into .emacs init file to enable it.
 
    ```elisp
    (require 'popup-edit-menu)
@@ -36,8 +36,11 @@ When you right click to active it, it show as following:
    ```
    
    or set it in Emacs Customization Group.
+   
+2. If menu-bar-lines is disabled, popup-edit-menu will popup global menu bar, not edit menu. If you
+   want to popup edit menu always, set `popup-edit-menu-never-menu-bar-flag` to `t`.
 
-2. If you want to add some custom menu items to that popup menu, just add to global edit menu, it will
+3. If you want to add some custom menu items to that popup menu, just add to global edit menu, it will
    show on popup edit menu too. For example: use easymenu package API to add two menu items to do 
    base64 encode and decode on selected region:
    
@@ -48,3 +51,4 @@ When you right click to active it, it show as following:
    ```
    
    ![custom](images/custom.png)
+   
