@@ -34,7 +34,7 @@
 
 ;;;###autoload
 (defgroup popup-edit-menu nil
-    "Display a popup enhanced context edit menu"
+    "Popup a convenient context edit menu"
     :group 'convenience
 )
 
