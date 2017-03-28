@@ -26,6 +26,8 @@
 
 ;;; Code:
 
+(require 'mouse)
+
 ;;;###autoload
 (defgroup popup-edit-menu nil
     "Display a popup enhanced context edit menu"
