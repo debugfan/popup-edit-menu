@@ -145,7 +145,9 @@ not it is actually displayed."
 Use the former if the menu bar is showing, otherwise the latter.
 EVENT is an from an input event, passing to `popup-menu' as POSITION argument.
 PREFIX is the prefix argument (if any) to pass to the command."
-  (declare (obsolete nil "23.1"))
+  ;; This function is based on "mouse-menu-bar-stuff" in mouse.el, which
+  ;; is somehow declared obsolete, possibly from a glitch a long time ago.
+  ;; (declare (obsolete nil "23.1"))
   (interactive "@e\nP")
   (run-hooks 'activate-menubar-hook 'menu-bar-update-hook)
   (popup-menu
