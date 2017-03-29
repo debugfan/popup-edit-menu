@@ -147,7 +147,7 @@ EVENT is an from an input event, passing to `popup-menu' as POSITION argument.
 PREFIX is the prefix argument (if any) to pass to the command."
   ;; This function is based on "mouse-menu-bar-stuff" in mouse.el, which
   ;; is somehow declared obsolete, possibly from a glitch a long time ago.
-  ;; (declare (obsolete nil "23.1"))
+  ;; (declare (obsolete nil "23.1"))    ; fix #2
   (interactive "@e\nP")
   (run-hooks 'activate-menubar-hook 'menu-bar-update-hook)
   (popup-menu
