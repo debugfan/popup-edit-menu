@@ -156,7 +156,5 @@ otherwise the `mouse-popup-menubar'"
    '(menu-item "Popup Edit Menu" ignore
                 :filter popup-edit-menu-make-keymap))
 
-(global-set-key [mouse-3] (popup-edit-menu-stub))
-
 (provide 'popup-edit-menu)
 ;;; popup-edit-menu.el ends here
