@@ -5,7 +5,7 @@
 ;; Author: Debugfan Chin <debugfanchin@gmail.com>
 ;; Keywords: lisp, pop-up, context, edit, menu
 ;; Package-Requires: ((emacs "24"))
-;; Version: 0.0.2
+;; Version: 0.0.3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 ;; Add the following codes into your init file to enable it.
 ;;
 ;;   (require 'popup-edit-menu)
-;;   (global-set-key [mouse-3] 'popup-edit-menu)
+;;   (global-set-key [mouse-3] (popup-edit-menu-stub))
 ;;
 ;; You can change the key binding as you want if you don't want
 ;; to active it by mouse right click
@@ -62,7 +62,7 @@
   :type 'boolean
   :require 'popup-edit-menu
   :group 'popup-edit-menu)
-  
+
 ;;;###autoload
 (defcustom popup-edit-menu-mode-menus-down-flag nil
   "Non-nil means move mode menus on the bottom..."
@@ -129,33 +129,34 @@ not it is actually displayed."
     (if popup-edit-menu-mode-menus-down-flag
         (apply 'append
                global-menu
-               (and global-menu (or local-menu minor-mode-menus) (list 'keymap (list 'popup-edit-menu-mode-separator "--")))
+               (and global-menu (or local-menu minor-mode-menus)
+                    (list 'keymap (list 'popup-edit-menu-mode-separator "--")))
                local-menu
                minor-mode-menus
                nil)
         (apply 'append
                local-menu
                minor-mode-menus
-               (and (or local-menu minor-mode-menus) global-menu (list 'keymap (list 'popup-edit-menu-mode-separator "--")))
+               (and (or local-menu minor-mode-menus) global-menu
+                    (list 'keymap (list 'popup-edit-menu-mode-separator "--")))
                global-menu
                nil))))
-           
-(defun popup-edit-menu (event prefix)
-  "Popup a menu like either `popup-edit-menu-map' or `mouse-popup-menubar'.
-Use the former if the menu bar is showing, otherwise the latter.
-EVENT is an from an input event, passing to `popup-menu' as POSITION argument.
-PREFIX is the prefix argument (if any) to pass to the command."
-  ;; This function is based on "mouse-menu-bar-stuff" in mouse.el, which
-  ;; is somehow declared obsolete, possibly from a glitch a long time ago.
-  ;; (declare (obsolete nil "23.1"))    ; fix #2
-  (interactive "@e\nP")
-  (run-hooks 'activate-menubar-hook 'menu-bar-update-hook)
-  (popup-menu
+
+(defun popup-edit-menu-make-keymap (&optional _ignore)
+  "A binding function for popup edit menu item.
+Use the `popup-edit-menu-map' if the menu bar is showing,
+otherwise the `mouse-popup-menubar'"
    (if (and (not popup-edit-menu-never-menu-bar-flag)
             (zerop (or (frame-parameter nil 'menu-bar-lines) 0)))
-       (mouse-menu-bar-map)
-     (popup-edit-menu-map))
-   event prefix))
+        (mouse-menu-bar-map)
+     (popup-edit-menu-map)))
+
+(defun popup-edit-menu-stub ()
+  "A entry to define popup edit menu."
+   '(menu-item "Popup Edit Menu" ignore
+                :filter popup-edit-menu-make-keymap))
+
+(global-set-key [mouse-3] (popup-edit-menu-stub))
 
 (provide 'popup-edit-menu)
 ;;; popup-edit-menu.el ends here

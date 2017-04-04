@@ -16,7 +16,7 @@ This Elisp package used to popup a convenient context edit menu in Emacs.
 
    ```elisp
    (require 'popup-edit-menu)
-   (global-set-key [mouse-3] 'popup-edit-menu)
+   (global-set-key [mouse-3] (popup-edit-menu-stub))
    ```
    
    You can change the key binding as you want if you don't want to active it by mouse right click
